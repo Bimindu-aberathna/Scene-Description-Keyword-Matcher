@@ -10,7 +10,7 @@ model = SentenceTransformer('all-MiniLM-L6-v2')
 # Initialize FastAPI app
 app = FastAPI()
 
-# Keywords
+# Keywords -  curently in the AAhaas app
 keywords = [
     "hiker",
     "forest",
@@ -217,6 +217,7 @@ class Description(BaseModel):
 def read_root():
     return {"Hello": "World"}
 
+# Endpoint to get keywords for a given description
 @app.post("/getkey_words")
 async def get_key_words(request: Description):
     # Validate secret key
@@ -229,7 +230,7 @@ async def get_key_words(request: Description):
     
     # Calculate similarities
     similarities = util.cos_sim(desc_embedding, keyword_embeddings)
-    threshold = 0.2
+    threshold = 0.2 #Decrease to get more keywords, Increase for more specific keywords
     matched_keywords = [
         keywords[i] 
         for i in range(len(keywords)) 
